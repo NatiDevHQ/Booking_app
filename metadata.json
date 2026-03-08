@@ -1,0 +1,5 @@
+{
+  "name": "Grid My Life Clone",
+  "description": "A pixel-perfect recreation of the Grid My Life habit tracker using React and Tailwind CSS.",
+  "requestFramePermissions": []
+}
