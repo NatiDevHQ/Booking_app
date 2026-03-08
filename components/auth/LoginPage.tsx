@@ -37,7 +37,6 @@ export default function LoginPage({ onNavigate }: LoginPageProps) {
         <div className="w-full space-y-4">
             <div className="space-y-1.5">
                 <label className="text-sm font-medium text-white">Email</label>
-                <div className="text-[10px] text-zinc-500 mb-1">Use "admin@example.com" for admin view</div>
                 <Input 
                     id="email-input"
                     type="email"
