@@ -1,7 +1,7 @@
 .landing-container {
   font-family: 'Inter', -apple-system, system-ui, sans-serif;
   color: #fff;
-  background: #000;
+  background: transparent !important;
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
@@ -230,6 +230,7 @@ section {
   text-align: center;
   padding: 0 2rem;
   z-index: 10;
+  background: transparent;
 }
 
 .hero-content {
@@ -349,6 +350,7 @@ section {
   padding: 10rem 2rem;
   max-width: 1100px;
   margin: 0 auto;
+  background: transparent;
 }
 
 .section-title {
@@ -361,6 +363,7 @@ section {
   font-weight: 900;
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
+  background: transparent;
 }
 
 .features-grid {
@@ -407,6 +410,7 @@ section {
   position: relative;
   padding: 10rem 2rem;
   z-index: 10;
+  background: transparent;
 }
 
 .steps-container {
@@ -448,7 +452,7 @@ section {
   z-index: 10;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(255, 255, 255, 0.02);
+  background: transparent;
 }
 
 .stats-grid {
@@ -482,6 +486,7 @@ section {
   text-align: center;
   z-index: 10;
   position: relative;
+  background: transparent;
 }
 
 .trust-label {
@@ -516,6 +521,7 @@ section {
   text-align: center;
   z-index: 10;
   overflow: hidden;
+  background: transparent;
 }
 
 .final-cta h2 {
@@ -543,7 +549,7 @@ section {
 .landing-footer {
   position: relative;
   padding: 8rem 2rem 4rem;
-  background: #000;
+  background: transparent !important;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 10;
 }

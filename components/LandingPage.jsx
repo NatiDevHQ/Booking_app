@@ -53,15 +53,6 @@ const LandingPage = ({ onEnter }) => {
 
       {/* Hero Section */}
       <section className="hero">
-        <Grainient 
-          className="hero-bg" 
-          color1="#001144" 
-          color2="#0055ff" 
-          color3="#000000"
-          grainAmount={0.04}
-          warpStrength={0.8}
-          timeSpeed={0.4}
-        />
 
         <div className="hero-content">
           <div className="new-badge font-mono tracking-widest">
