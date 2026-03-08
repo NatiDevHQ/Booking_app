@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Booking } from '../types';
+import confetti from 'canvas-confetti';
 
 interface ConfirmationPageProps {
   booking: Booking;
   onHome: () => void;
 }
 
-const ConfirmationPage: React.FC<ConfirmationPageProps> = ({ booking, onHome }) => {
+const ConfirmationPage: React.FC<ConfirmationPageProps> = ({ booking }) => {
+  useEffect(() => {
+    // Fire confetti on mount
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min: number, max: number) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval: any = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in zoom-in-95 duration-500">
       <div className="w-24 h-24 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mb-8 shadow-inner">
@@ -42,13 +69,6 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({ booking, onHome }) 
           <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400">{booking.email}</p>
         </div>
       </div>
-
-      <button
-        onClick={onHome}
-        className="px-8 py-3 bg-zinc-100 dark:bg-zinc-800 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black text-black dark:text-white font-bold rounded-xl transition-all duration-300"
-      >
-        Back to Home
-      </button>
     </div>
   );
 };

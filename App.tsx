@@ -7,6 +7,8 @@ import Home from './components/Home';
 import BookingPage from './components/BookingPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import AdminDashboard from './components/AdminDashboard';
+import LandingPage from './components/LandingPage';
+import AppTour from './components/AppTour';
 import { Booking } from './types';
 
 const DEMO_BOOKINGS: Booking[] = [
@@ -44,7 +46,7 @@ const DEMO_BOOKINGS: Booking[] = [
   }
 ];
 
-type Page = 'home' | 'booking' | 'confirmation' | 'admin' | 'login' | 'signup';
+type Page = 'landing' | 'home' | 'booking' | 'confirmation' | 'admin' | 'login' | 'signup';
 
 interface User {
   email: string;
@@ -52,7 +54,7 @@ interface User {
 }
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('login');
+  const [currentPage, setCurrentPage] = useState<Page>('landing');
   const [lastBooking, setLastBooking] = useState<Booking | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     try {
@@ -71,6 +73,21 @@ function App() {
         return DEMO_BOOKINGS;
     }
   });
+
+  const [showTour, setShowTour] = useState(() => {
+    return !localStorage.getItem('sbs-tour-completed');
+  });
+
+  const [isDataLoading, setIsDataLoading] = useState(false);
+
+  // Simulate data fetching on page changes
+  useEffect(() => {
+    if (currentPage === 'home' || currentPage === 'admin') {
+        setIsDataLoading(true);
+        const timer = setTimeout(() => setIsDataLoading(false), 1200);
+        return () => clearTimeout(timer);
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     if (currentUser) {
@@ -96,13 +113,26 @@ function App() {
     setCurrentPage('confirmation');
   };
 
-  const handleUpdateStatus = (id: string, status: 'pending' | 'approved') => {
+  const handleUpdateStatus = (id: string, status: 'pending' | 'approved' | 'cancelled') => {
     setBookings(prev => prev.map(b => b.id === id ? { ...b, status } : b));
+  };
+
+  const handleCancelBooking = (id: string) => {
+    setBookings(prev => prev.map(b => b.id === id ? { ...b, status: 'cancelled' as const } : b));
+  };
+
+  const handleUpdateBooking = (updatedBooking: Booking) => {
+    setBookings(prev => prev.map(b => b.id === updatedBooking.id ? updatedBooking : b));
   };
 
   const handleSignOut = () => {
     setCurrentUser(null);
     setCurrentPage('login');
+  };
+
+  const handleTourComplete = () => {
+    localStorage.setItem('sbs-tour-completed', 'true');
+    setShowTour(false);
   };
 
   const handleNavigate = (page: Page | 'dashboard') => {
@@ -111,6 +141,10 @@ function App() {
         const email = (window as any)._loginEmail || (window as any)._signupEmail || "user@example.com";
         const role = email.includes('admin') ? 'admin' : 'user';
         setCurrentUser({ email, role });
+        
+        // Re-check tour status on login/register
+        setShowTour(!localStorage.getItem('sbs-tour-completed'));
+        
         setCurrentPage(role === 'admin' ? 'admin' : 'home');
         return;
     }
@@ -123,6 +157,7 @@ function App() {
   };
 
   // Simple Router
+  if (currentPage === 'landing') return <LandingPage onEnter={() => setCurrentPage('login')} />;
   if (currentPage === 'login') return <LoginPage onNavigate={handleNavigate as any} />;
   if (currentPage === 'signup') return <SignupPage onNavigate={handleNavigate as any} />;
 
@@ -152,7 +187,7 @@ function App() {
 
         <main className="animate-in fade-in duration-700">
             {currentPage === 'home' && (
-                <Home onBookNow={() => setCurrentPage('booking')} />
+                <Home onBookNow={() => setCurrentPage('booking')} loading={isDataLoading} />
             )}
 
             {currentPage === 'booking' && (
@@ -175,11 +210,58 @@ function App() {
                     bookings={bookings} 
                     currentUser={currentUser}
                     onUpdateStatus={handleUpdateStatus}
+                    onCancelBooking={handleCancelBooking}
+                    onUpdateBooking={handleUpdateBooking}
                     onBookNow={() => setCurrentPage('booking')}
+                    loading={isDataLoading}
                 />
             )}
         </main>
       </div>
+
+      {showTour && currentUser && (
+        <AppTour 
+          onComplete={handleTourComplete} 
+          steps={currentUser.role === 'admin' ? [
+            {
+              selector: "#tour-search",
+              title: "Neural Search",
+              description: "Instantly locate any booking in the network. Our high-performance indexer resolves queries with near-zero latency."
+            },
+            {
+              selector: "#tour-filters",
+              title: "Logic Gate Filters",
+              description: "Filter datasets by operational status. Toggle between pending and approved synchronization phases."
+            },
+            {
+              selector: "#tour-view-mode",
+              title: "Architecture Toggle",
+              description: "Switch between high-density grid layouts and focused list streams depending on your monitoring needs."
+            },
+            {
+              selector: "#tour-add-btn",
+              title: "Sequence Initialization",
+              description: "Initialize a manual booking node directly into the system architecture."
+            }
+          ] : [
+            {
+              selector: "#tour-add-btn",
+              title: "Initialize Sequence",
+              description: "Launch your first booking. This bridge connects you directly to our temporal scheduling engine."
+            },
+            {
+              selector: "#tour-nav-dashboard",
+              title: "Operational Monitor",
+              description: "Track your personal data nodes. Monitor your synchronization status and approval logs in real-time."
+            },
+            {
+              selector: "#tour-nav-home",
+              title: "Main Terminal",
+              description: "Return to the central hub to synchronize your dashboard or view global system health."
+            }
+          ]}
+        />
+      )}
     </div>
   );
 }

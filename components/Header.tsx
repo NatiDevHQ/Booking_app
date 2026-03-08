@@ -123,7 +123,7 @@ const Header: React.FC<HeaderProps> = ({ onSignOut, currentUser }) => {
                     onClick={(e) => toggleDarkMode(e)}
                 >
                     <div className="flex items-center gap-3">
-                         <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 ${isDark ? 'bg-indigo-900/30 text-indigo-300' : 'bg-amber-100 text-amber-600'}`}>
+                         <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 ${isDark ? 'bg-indigo-900/30 text-indigo-300' : 'bg-blue-100 text-blue-600'}`}>
                              {isDark ? (
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>

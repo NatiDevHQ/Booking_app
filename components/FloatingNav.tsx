@@ -10,7 +10,7 @@ interface FloatingNavProps {
 
 const FloatingNav: React.FC<FloatingNavProps> = ({ onListView, onAdd, onGridView, activeView, userRole }) => {
   return (
-    <div className="fixed bottom-2 left-1/2 -translate-x-1/2 w-[340px] h-[80px] z-[100] pointer-events-none drop-shadow-2xl scale-[0.85] origin-bottom">
+    <div className="fixed bottom-2 left-1/2 -translate-x-1/2 w-[90%] max-w-[340px] h-[80px] z-[100] pointer-events-none drop-shadow-2xl scale-[0.85] origin-bottom sm:scale-100">
        <div className="relative w-full h-full pointer-events-auto">
           {/* Background Shape - SVG */}
           <svg 
@@ -31,6 +31,7 @@ const FloatingNav: React.FC<FloatingNavProps> = ({ onListView, onAdd, onGridView
               {/* Home Button */}
               <div className="relative group/nav">
                 <button 
+                  id="tour-nav-home"
                   onClick={onListView} 
                   className={`flex flex-col items-center justify-center gap-1 w-12 h-12 transition-colors relative ${activeView === 'list' ? 'text-black dark:text-white' : 'text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300'}`}
                 >
@@ -49,6 +50,7 @@ const FloatingNav: React.FC<FloatingNavProps> = ({ onListView, onAdd, onGridView
               {/* Role-Specific Button (Admin or My Bookings) */}
               <div className="relative group/nav">
                 <button 
+                  id="tour-nav-dashboard"
                   onClick={onGridView} 
                   className={`flex flex-col items-center justify-center gap-1 w-12 h-12 transition-colors relative ${activeView === 'grid' ? 'text-black dark:text-white' : 'text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300'}`}
                 >
@@ -81,6 +83,7 @@ const FloatingNav: React.FC<FloatingNavProps> = ({ onListView, onAdd, onGridView
           {/* Center Floating Action Button */}
           <div className="absolute top-[5px] left-1/2 -translate-x-1/2 -translate-y-[20%]">
              <button 
+                id="tour-add-btn"
                 onClick={onAdd}
                 className="w-[56px] h-[56px] bg-[#2D2D2D] dark:bg-zinc-100 rounded-full flex items-center justify-center text-white dark:text-black shadow-lg hover:bg-black dark:hover:bg-white hover:scale-105 active:scale-95 transition-all"
              >

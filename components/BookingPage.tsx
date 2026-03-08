@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
-import { Booking } from '../types';
+import { Booking, TIME_SLOTS } from '../types';
 
 interface BookingPageProps {
   onBack: () => void;
   onConfirm: (booking: Booking) => void;
   currentUser: { email: string; role: 'user' | 'admin' } | null;
 }
-
-const TIME_SLOTS = [
-  "09:00 AM",
-  "10:00 AM",
-  "11:00 AM",
-  "01:00 PM",
-  "02:00 PM",
-  "03:00 PM"
-];
 
 const BookingPage: React.FC<BookingPageProps> = ({ onBack, onConfirm, currentUser }) => {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
@@ -57,10 +48,11 @@ const BookingPage: React.FC<BookingPageProps> = ({ onBack, onConfirm, currentUse
         Select a Time Slot
       </h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
         {TIME_SLOTS.map((slot) => (
           <button
             key={slot}
+            type="button"
             onClick={() => setSelectedSlot(slot)}
             className={`py-4 px-6 rounded-xl border-2 font-bold transition-all duration-200 ${
               selectedSlot === slot
@@ -73,8 +65,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ onBack, onConfirm, currentUse
         ))}
       </div>
 
-      {selectedSlot && (
-        <form onSubmit={handleSubmit} className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <form onSubmit={handleSubmit} className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-xs font-black uppercase tracking-widest text-gray-400">Your Name</label>
@@ -102,17 +93,23 @@ const BookingPage: React.FC<BookingPageProps> = ({ onBack, onConfirm, currentUse
               <label className="text-xs font-black uppercase tracking-widest text-gray-400">Date</label>
               <input
                 required
-                type="date"
+                type="text"
+                placeholder="YYYY-MM-DD or manual date"
                 className="w-full bg-zinc-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 outline-none focus:ring-2 ring-black dark:ring-white transition-all text-black dark:text-white font-mono"
                 value={formData.date}
                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               />
             </div>
             <div className="space-y-2">
-                <label className="text-xs font-black uppercase tracking-widest text-gray-400">Selected Time</label>
-                <div className="w-full bg-gray-100 dark:bg-zinc-800 rounded-xl px-4 py-3 font-bold text-black dark:text-white font-mono">
-                    {selectedSlot}
-                </div>
+                <label className="text-xs font-black uppercase tracking-widest text-gray-400">Target Time Slot</label>
+                <input
+                    required
+                    type="text"
+                    placeholder="Type custom time or pick above"
+                    className="w-full bg-zinc-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 outline-none focus:ring-2 ring-black dark:ring-white transition-all text-black dark:text-white font-mono font-bold"
+                    value={selectedSlot || ''}
+                    onChange={(e) => setSelectedSlot(e.target.value)}
+                />
             </div>
           </div>
 
@@ -122,8 +119,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ onBack, onConfirm, currentUse
           >
             Confirm Booking
           </button>
-        </form>
-      )}
+      </form>
     </div>
   );
 };

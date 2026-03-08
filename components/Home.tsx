@@ -2,9 +2,11 @@ import React from 'react';
 
 interface HomeProps {
   onBookNow: () => void;
+  loading?: boolean;
 }
 
-const Home: React.FC<HomeProps> = ({ onBookNow }) => {
+const Home: React.FC<HomeProps> = ({ onBookNow, loading = false }) => {
+
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter mb-6 bg-transparent text-black dark:text-white transition-colors duration-300">
