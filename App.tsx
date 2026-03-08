@@ -99,7 +99,7 @@ function App() {
         
         setTimeout(() => {
             setIsAppLoading(false);
-        }, 1200); // 1.2s total transition window
+        }, 850); // 1.2s total transition window
     }, 5000); // 5s hold
     return () => clearTimeout(timer);
   }, []);
@@ -375,7 +375,7 @@ function App() {
             
             {/* Version Footer */}
             <div className={`absolute bottom-12 text-[9px] font-black text-zinc-700 uppercase tracking-[0.3em] transition-opacity duration-500 ${isExiting ? 'opacity-0' : 'opacity-100'}`}>
-                System Release v2.4.0 • Secured Sequence
+                System Release v1 • Secured Sequence
             </div>
         </div>
       )}
